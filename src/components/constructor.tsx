@@ -2,9 +2,9 @@ export function Constructor({scripts, onAddItem, onTypeClick}){
   return (
     <>
       <ul>
-        {scripts.map(s => {return (
+        {scripts.map(s => (
           <ScriptSnippet key={s.id} script={s} onTypeClick={() => onTypeClick(s)}/>
-        )})}
+        ))}
       </ul>
       <div>
         <button onClick={onAddItem}>Add</button>
