@@ -11,6 +11,29 @@ export default function Home() {
     const newScript = { id: maxId + 1, isAsync: false, isDefer: false, delay: 0 };
     setScripts([...scripts, newScript]);
   }
+  function handleTypeClick(clickedScript){
+    const newScripts = scripts.map(s => {
+      if(s.id === clickedScript.id){
+        const newScript = {...s};
+        // none -> defer -> async -> none
+        if(!newScript.isDefer && !newScript.isAsync) {
+          newScript.isDefer = true;
+          newScript.isAsync = false;
+        }
+        else if(newScript.isDefer && !newScript.isAsync){
+          newScript.isDefer = false;
+          newScript.isAsync = true;
+        } else {
+          newScript.isDefer = false;
+          newScript.isAsync = false;
+        }
+        return newScript;
+      } else {
+        return s;
+      }
+    })
+    setScripts(newScripts);
+  }
   return (
     <>
       <Head>
@@ -20,7 +43,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <Constructor scripts={scripts} addItem={handleAddItemClick}></Constructor>
+        <Constructor scripts={scripts} onAddItem={handleAddItemClick} onTypeClick={handleTypeClick}></Constructor>
       </main>
     </>
   )
