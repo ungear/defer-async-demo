@@ -46,6 +46,17 @@ export default function Home() {
     })
     setScripts(newScripts);
   }
+
+  function handleRunClick(){
+    var iframe = document.createElement('iframe');
+    document.body.appendChild(iframe);
+    scripts.forEach(s => {
+      let script = document.createElement('script');
+      script.src = `/api/hello?id=${s.id}&delay=${s.delay}`;
+      iframe.contentWindow.document.body.appendChild(script)
+    })
+    //iframe.contentWindow.document.open();
+  }
   return (
     <>
       <Head>
@@ -60,6 +71,7 @@ export default function Home() {
           onAddItem={handleAddItemClick} 
           onTypeClick={handleTypeClick}
           onDelayChange={handleDalayChange}></Constructor>
+        <button onClick={handleRunClick}>RUN</button>
       </main>
     </>
   )

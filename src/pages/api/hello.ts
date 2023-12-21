@@ -9,5 +9,9 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  res.status(200).json({ name: 'John Doe' })
+  var delay = req.query.delay || 0;
+  setTimeout(() => {
+    res.status(200).send('console.log("!")')
+  }, delay * 1000)
+  
 }
