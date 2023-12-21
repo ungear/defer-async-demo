@@ -1,9 +1,13 @@
-export function Constructor({scripts, onAddItem, onTypeClick}){
+export function Constructor({scripts, onAddItem, onTypeClick, onDelayChange}){
   return (
     <>
       <ul>
         {scripts.map(s => (
-          <ScriptSnippet key={s.id} script={s} onTypeClick={() => onTypeClick(s)}/>
+          <ScriptSnippet 
+            key={s.id} 
+            script={s} 
+            onTypeClick={() => onTypeClick(s)}
+            onDelayChange={(val) => onDelayChange(s, val)}/>
         ))}
       </ul>
       <div>
@@ -13,7 +17,7 @@ export function Constructor({scripts, onAddItem, onTypeClick}){
   )
 }
 
-function ScriptSnippet({script, onTypeClick}){
+function ScriptSnippet({script, onTypeClick, onDelayChange}){
   const typeLabel = script.isDefer
     ? "defer"
     : script.isAsync
@@ -23,7 +27,7 @@ function ScriptSnippet({script, onTypeClick}){
     <li>
       &lt;script 
       <button onClick={onTypeClick}>{typeLabel}</button>
-      delay: {script.delay}&gt;
+      delay: <input type="number" value={script.delay} onChange={(e) => onDelayChange(e.target.value)}></input>&gt;
     </li>
   )
 }

@@ -34,6 +34,18 @@ export default function Home() {
     })
     setScripts(newScripts);
   }
+
+  function handleDalayChange(script, newDelay){
+    const newScripts = scripts.map(s => {
+      if(s.id === script.id){
+        const newScript = {...s, delay: Number(newDelay)};
+        return newScript;
+      } else {
+        return s;
+      }
+    })
+    setScripts(newScripts);
+  }
   return (
     <>
       <Head>
@@ -43,7 +55,11 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <Constructor scripts={scripts} onAddItem={handleAddItemClick} onTypeClick={handleTypeClick}></Constructor>
+        <Constructor 
+          scripts={scripts} 
+          onAddItem={handleAddItemClick} 
+          onTypeClick={handleTypeClick}
+          onDelayChange={handleDalayChange}></Constructor>
       </main>
     </>
   )
