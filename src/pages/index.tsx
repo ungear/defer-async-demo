@@ -2,13 +2,14 @@ import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
 import { Constructor } from '../components/constructor';
 import { useState } from 'react'
+import { Script, ScriptType } from '@/typing';
 
 export default function Home() {
-  const [scripts, setScripts] = useState([{ id: 1, isAsync: false, isDefer: false, delay: 1}]);
+  const [scripts, setScripts] = useState<Script[]>([{ id: 1, type: ScriptType.None, delay: 1}]);
 
   function handleAddItemClick(){
     const maxId = Math.max(...scripts.map(x => x.id));
-    const newScript = { id: maxId + 1, isAsync: false, isDefer: false, delay: 0 };
+    const newScript = { id: maxId + 1, type: ScriptType.None, delay: 0 };
     setScripts([...scripts, newScript]);
   }
   function handleTypeClick(clickedScript){
@@ -16,16 +17,13 @@ export default function Home() {
       if(s.id === clickedScript.id){
         const newScript = {...s};
         // none -> defer -> async -> none
-        if(!newScript.isDefer && !newScript.isAsync) {
-          newScript.isDefer = true;
-          newScript.isAsync = false;
+        if(newScript.type === ScriptType.None) {
+          newScript.type = ScriptType.Defer;
         }
-        else if(newScript.isDefer && !newScript.isAsync){
-          newScript.isDefer = false;
-          newScript.isAsync = true;
+        else if(newScript.type === ScriptType.Defer){
+          newScript.type = ScriptType.Async;
         } else {
-          newScript.isDefer = false;
-          newScript.isAsync = false;
+          newScript.type = ScriptType.None;
         }
         return newScript;
       } else {
@@ -48,13 +46,13 @@ export default function Home() {
   }
 
   function handleRunClick(){
-    var iframe = document.createElement('iframe');
-    document.body.appendChild(iframe);
-    scripts.forEach(s => {
-      let script = document.createElement('script');
-      script.src = `/api/hello?id=${s.id}&delay=${s.delay}`;
-      iframe.contentWindow.document.body.appendChild(script)
-    })
+    // var iframe = document.createElement('iframe');
+    // document.body.appendChild(iframe);
+    // scripts.forEach(s => {
+    //   let script = document.createElement('script');
+    //   script.src = `/api/hello?id=${s.id}&delay=${s.delay}`;
+    //   iframe.contentWindow.document.body.appendChild(script)
+    // })
     //iframe.contentWindow.document.open();
   }
   return (

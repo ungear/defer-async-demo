@@ -1,6 +1,14 @@
+import { Script, ScriptType } from '@/typing';
 import styles from './constructor.module.scss';
 
-export function Constructor({scripts, onAddItem, onTypeClick, onDelayChange}){
+interface ConstructoryInput {
+  scripts: Script[], 
+  onAddItem, 
+  onTypeClick, 
+  onDelayChange
+}
+
+export function Constructor({scripts, onAddItem, onTypeClick, onDelayChange}: ConstructoryInput){
   return (
     <>
       <section>
@@ -19,20 +27,28 @@ export function Constructor({scripts, onAddItem, onTypeClick, onDelayChange}){
   )
 }
 
-function ScriptSnippet({script, onTypeClick, onDelayChange}){
-  const typeLabel = script.isDefer
-    ? "defer"
-    : script.isAsync
-      ? "async"
-      : "--"
+interface ScriptSnippetInput {
+  script: Script, 
+  onTypeClick, 
+  onDelayChange
+}
+
+function ScriptSnippet({script, onTypeClick, onDelayChange}: ScriptSnippetInput){
+  const typeLabel = TypeNameByType[script.type];
   return(
-    <div class={styles.script}>
-      <span class={styles.script__code}>&lt;script</span>
-      <button class={styles.script__type} onClick={onTypeClick}>{typeLabel}</button>
-      <span class={styles.script__delay}>
+    <div className={styles.script}>
+      <span className={styles.script__code}>&lt;script</span>
+      <button className={styles.script__type} onClick={onTypeClick}>{typeLabel}</button>
+      <span className={styles.script__delay}>
         delay: <input type="number" value={script.delay} onChange={(e) => onDelayChange(e.target.value)}></input>
       </span>
-      <span class={styles.script__code}>&gt;&lt;/script&gt;</span>
+      <span className={styles.script__code}>&gt;&lt;/script&gt;</span>
     </div>
   )
+}
+
+var TypeNameByType = {
+  [ScriptType.Defer]: 'defer',
+  [ScriptType.Async]: 'async',
+  [ScriptType.None]: '--',
 }
