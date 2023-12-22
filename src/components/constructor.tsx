@@ -1,7 +1,9 @@
+import styles from './constructor.module.scss';
+
 export function Constructor({scripts, onAddItem, onTypeClick, onDelayChange}){
   return (
     <>
-      <ul>
+      <section>
         {scripts.map(s => (
           <ScriptSnippet 
             key={s.id} 
@@ -9,7 +11,7 @@ export function Constructor({scripts, onAddItem, onTypeClick, onDelayChange}){
             onTypeClick={() => onTypeClick(s)}
             onDelayChange={(val) => onDelayChange(s, val)}/>
         ))}
-      </ul>
+      </section>
       <div>
         <button onClick={onAddItem}>Add</button>
       </div>
@@ -24,10 +26,13 @@ function ScriptSnippet({script, onTypeClick, onDelayChange}){
       ? "async"
       : "--"
   return(
-    <li>
-      &lt;script 
-      <button onClick={onTypeClick}>{typeLabel}</button>
-      delay: <input type="number" value={script.delay} onChange={(e) => onDelayChange(e.target.value)}></input>&gt;
-    </li>
+    <div class={styles.script}>
+      <span class={styles.script__code}>&lt;script</span>
+      <button class={styles.script__type} onClick={onTypeClick}>{typeLabel}</button>
+      <span class={styles.script__delay}>
+        delay: <input type="number" value={script.delay} onChange={(e) => onDelayChange(e.target.value)}></input>
+      </span>
+      <span class={styles.script__code}>&gt;&lt;/script&gt;</span>
+    </div>
   )
 }

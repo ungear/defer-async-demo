@@ -1,0 +1,15 @@
+$codeColor: #7f55f1;
+
+.script {
+  display: flex;
+  gap: 10px;
+  &__code {
+    color: $codeColor;
+  }
+  &__type{
+    width: 40px;
+  }
+  &__delay input{
+    width: 40px;
+  }
+}
